@@ -2244,12 +2244,6 @@ void SNN::doSTPUpdateAndDecayCond() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					doSTPUpdateAndDecayCond_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2257,8 +2251,7 @@ void SNN::doSTPUpdateAndDecayCond() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperDoSTPUpdateAndDecayCond_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperDoSTPUpdateAndDecayCond_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2291,12 +2284,6 @@ void SNN::spikeGeneratorUpdate() {
 					#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 						assignPoissonFiringRate_CPU(netId);
 					#else // Linux or MAC
-						pthread_attr_t attr;
-						pthread_attr_init(&attr);
-						CPU_ZERO(&cpus);
-						CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-						pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 						argsThreadRoutine[threadCount].snn_pointer = this;
 						argsThreadRoutine[threadCount].netId = netId;
 						argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2304,8 +2291,7 @@ void SNN::spikeGeneratorUpdate() {
 						argsThreadRoutine[threadCount].endIdx = 0;
 						argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-						pthread_create(&threads[threadCount], &attr, &SNN::helperAssignPoissonFiringRate_CPU, (void*)&argsThreadRoutine[threadCount]);
-						pthread_attr_destroy(&attr);
+						pthread_create(&threads[threadCount], NULL, &SNN::helperAssignPoissonFiringRate_CPU, (void*)&argsThreadRoutine[threadCount]);
 						threadCount++;
 					#endif
 				}
@@ -2340,12 +2326,6 @@ void SNN::spikeGeneratorUpdate() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					spikeGeneratorUpdate_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2353,8 +2333,7 @@ void SNN::spikeGeneratorUpdate() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperSpikeGeneratorUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperSpikeGeneratorUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2388,12 +2367,6 @@ void SNN::findFiring() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					findFiring_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2401,8 +2374,7 @@ void SNN::findFiring() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperFindFiring_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperFindFiring_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2433,12 +2405,6 @@ void SNN::doCurrentUpdate() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					doCurrentUpdateD2_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2446,8 +2412,7 @@ void SNN::doCurrentUpdate() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperDoCurrentUpdateD2_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperDoCurrentUpdateD2_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2470,12 +2435,6 @@ void SNN::doCurrentUpdate() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					doCurrentUpdateD1_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2483,8 +2442,7 @@ void SNN::doCurrentUpdate() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperDoCurrentUpdateD1_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperDoCurrentUpdateD1_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2515,12 +2473,6 @@ void SNN::updateTimingTable() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					updateTimingTable_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2528,8 +2480,7 @@ void SNN::updateTimingTable() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperUpdateTimingTable_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperUpdateTimingTable_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2559,12 +2510,6 @@ void SNN::globalStateUpdate() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					globalStateUpdate_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2572,8 +2517,7 @@ void SNN::globalStateUpdate() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperGlobalStateUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperGlobalStateUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2618,12 +2562,6 @@ void SNN::clearExtFiringTable() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					clearExtFiringTable_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2631,8 +2569,7 @@ void SNN::clearExtFiringTable() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperClearExtFiringTable_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperClearExtFiringTable_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2663,12 +2600,6 @@ void SNN::updateWeights() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					updateWeights_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2676,8 +2607,7 @@ void SNN::updateWeights() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperUpdateWeights_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperUpdateWeights_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -2717,12 +2647,6 @@ void SNN::shiftSpikeTables() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					shiftSpikeTables_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -2730,8 +2654,7 @@ void SNN::shiftSpikeTables() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperShiftSpikeTables_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperShiftSpikeTables_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -4251,12 +4174,6 @@ void SNN::deleteRuntimeData() {
 				#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 					deleteRuntimeData_CPU(netId);
 				#else // Linux or MAC
-					pthread_attr_t attr;
-					pthread_attr_init(&attr);
-					CPU_ZERO(&cpus);
-					CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-					pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 					argsThreadRoutine[threadCount].snn_pointer = this;
 					argsThreadRoutine[threadCount].netId = netId;
 					argsThreadRoutine[threadCount].lGrpId = 0;
@@ -4264,8 +4181,7 @@ void SNN::deleteRuntimeData() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperDeleteRuntimeData_CPU, (void*)&argsThreadRoutine[threadCount]);
-					pthread_attr_destroy(&attr);
+					pthread_create(&threads[threadCount], NULL, &SNN::helperDeleteRuntimeData_CPU, (void*)&argsThreadRoutine[threadCount]);
 					threadCount++;
 				#endif
 			}
@@ -4772,12 +4688,6 @@ void SNN::routeSpikes() {
 									firingTableIdxD2 + managerRuntimeData.extFiringTableEndIdxD2[lGrpId],
 									GtoLOffset); // [StartIdx, EndIdx)
 							#else // Linux or MAC
-								pthread_attr_t attr;
-								pthread_attr_init(&attr);
-								CPU_ZERO(&cpus);
-								CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-								pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 								argsThreadRoutine[threadCount].snn_pointer = this;
 								argsThreadRoutine[threadCount].netId = destNetId;
 								argsThreadRoutine[threadCount].lGrpId = 0;
@@ -4785,8 +4695,7 @@ void SNN::routeSpikes() {
 								argsThreadRoutine[threadCount].endIdx = firingTableIdxD2 + managerRuntimeData.extFiringTableEndIdxD2[lGrpId];
 								argsThreadRoutine[threadCount].GtoLOffset = GtoLOffset;
 
-								pthread_create(&threads[threadCount], &attr, &SNN::helperConvertExtSpikesD2_CPU, (void*)&argsThreadRoutine[threadCount]);
-								pthread_attr_destroy(&attr);
+								pthread_create(&threads[threadCount], NULL, &SNN::helperConvertExtSpikesD2_CPU, (void*)&argsThreadRoutine[threadCount]);
 								threadCount++;
 							#endif
 					}
@@ -4821,12 +4730,6 @@ void SNN::routeSpikes() {
 									firingTableIdxD1 + managerRuntimeData.extFiringTableEndIdxD1[lGrpId],
 									GtoLOffset); // [StartIdx, EndIdx)
 							#else // Linux or MAC
-								pthread_attr_t attr;
-								pthread_attr_init(&attr);
-								CPU_ZERO(&cpus);
-								CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-								pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 								argsThreadRoutine[threadCount].snn_pointer = this;
 								argsThreadRoutine[threadCount].netId = destNetId;
 								argsThreadRoutine[threadCount].lGrpId = 0;
@@ -4834,8 +4737,7 @@ void SNN::routeSpikes() {
 								argsThreadRoutine[threadCount].endIdx = firingTableIdxD1 + managerRuntimeData.extFiringTableEndIdxD1[lGrpId];
 								argsThreadRoutine[threadCount].GtoLOffset = GtoLOffset;
 
-								pthread_create(&threads[threadCount], &attr, &SNN::helperConvertExtSpikesD1_CPU, (void*)&argsThreadRoutine[threadCount]);
-								pthread_attr_destroy(&attr);
+								pthread_create(&threads[threadCount], NULL, &SNN::helperConvertExtSpikesD1_CPU, (void*)&argsThreadRoutine[threadCount]);
 								threadCount++;
 							#endif
 					}
@@ -6063,12 +5965,6 @@ void SNN::resetSpikeCnt(int gGrpId) {
 					#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
 						resetSpikeCnt_CPU(netId, ALL);
 					#else // Linux or MAC
-						pthread_attr_t attr;
-						pthread_attr_init(&attr);
-						CPU_ZERO(&cpus);
-						CPU_SET(threadCount%NUM_CPU_CORES, &cpus);
-						pthread_attr_setaffinity_np(&attr, sizeof(cpu_set_t), &cpus);
-
 						argsThreadRoutine[threadCount].snn_pointer = this;
 						argsThreadRoutine[threadCount].netId = netId;
 						argsThreadRoutine[threadCount].lGrpId = ALL;
@@ -6076,8 +5972,7 @@ void SNN::resetSpikeCnt(int gGrpId) {
 						argsThreadRoutine[threadCount].endIdx = 0;
 						argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-						pthread_create(&threads[threadCount], &attr, &SNN::helperResetSpikeCnt_CPU, (void*)&argsThreadRoutine[threadCount]);
-						pthread_attr_destroy(&attr);
+						pthread_create(&threads[threadCount], NULL, &SNN::helperResetSpikeCnt_CPU, (void*)&argsThreadRoutine[threadCount]);
 						threadCount++;
 					#endif
 				}
