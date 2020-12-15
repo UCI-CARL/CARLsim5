@@ -10,7 +10,9 @@ parent.0 =                                      ./ecj_boiler_plate.params
 ##############################
 eval.problem =                                  ec.app.command.CommandProblem
 eval.problem.command =                          ./main_TuneFiringRates.out
-evalthreads = 				                    1
+evalthreads = 				                    2
+seed.1 =				                        time
+seed.2 =				                        time
 
 
 ##############################
