@@ -92,132 +92,6 @@ typedef struct SynInfo_s {
 	int nId; //!< neuron id
 } SynInfo;
 
-typedef struct ConnectionInfo_s {
-	int grpSrc;
-	int grpDest;
-	int nSrc;
-	int nDest;
-	int srcGLoffset;
-	float initWt;
-	float maxWt;
-	int preSynId;
-	short int connId;
-	uint8_t delay;
-
-	bool operator== (const struct ConnectionInfo_s& conn) {
-		return (nSrc + srcGLoffset == conn.nSrc);
-	}
-} ConnectionInfo;
-
-/*!
- * \brief The configuration of a connection
- *
- * This structure contains the configurations of connections that are created during configuration state.
- * The configurations are later processed by compileNetwork() and translated to meta data which are ready to
- * be linked.
- * \see CARLsimState
- */
-typedef struct ConnectConfig_s {
-	int                      grpSrc;
-	int                      grpDest;
-	uint8_t                  maxDelay;
-	uint8_t                  minDelay;
-	float                    maxWt;
-	float                    initWt;
-	float                    minWt;
-	RadiusRF                 connRadius;
-	float                    mulSynFast; //!< factor to be applied to either gAMPA or gGABAa
-	float                    mulSynSlow; //!< factor to be applied to either gNMDA or gGABAb
-	int                      connectionMonitorId; // ToDo: move to ConnectConfigMD
-	uint32_t                 connProp;
-	ConnectionGeneratorCore* conn;
-	conType_t                type;
-	float                    connProbability; //!< connection probability
-	short int                connId; //!< connectID of the element in the linked list
-	int                      numberOfConnections; // ToDo: move to ConnectConfigMD
-} ConnectConfig;
-
-/*!
- * \brief the intermediate data of connect config
- *
- * \note for futre use
- */
-typedef struct ConnectConfigMD_s {
-	ConnectConfigMD_s() : gConnId(-1), lConnId(-1), connectionMonitorId(-1), numberOfConnections(-1)
-	{}
-	int gConnId;
-	int lConnId;
-	int connectionMonitorId;
-	int numberOfConnections;
-} ConnectConfigMD;
-
-/*!
-* \brief The runtime configuration of a connection
-*
-* This structure contains the configurations of connections that are created by optimizeAndPartiionNetwork(),
-* which is ready to be executed by computing backend.
-* \see CARLsimState
-* \see SNNState
-*/
-typedef struct ConnectConfigRT_s {
-	float* mulSynFast; //!< factor to be applied to either gAMPA or gGABAa
-	float* mulSynSlow; //!< factor to be applied to either gNMDA or gGABAb
-} ConnectConfigRT;
-
-typedef struct compConnectionInfo_s {
-	int								grpSrc, grpDest;
-	short int               		connId;
-}compConnectionInfo;
-
-/*!
-* \brief The configuration of a compartmental connection
-*
-* This structure contains the configurations of compartmental connections that are created during configuration state.
-* The configurations are later processed by compileNetwork() and translated to meta data which are ready to
-* be linked.
-* \see CARLsimState
-*/
-typedef struct compConnectConfig_s {
-	int							grpSrc, grpDest;
-	short int               	connId;
-} compConnectConfig;
-
-//!< neural dynamics configuration
-typedef struct NeuralDynamicsConfig_s {
-	NeuralDynamicsConfig_s() : Izh_a(-1.0f), Izh_a_sd(-1.0f), Izh_b(-1.0f), Izh_b_sd(-1.0f),
-							   Izh_c(-1.0f), Izh_c_sd(-1.0f), Izh_d(-1.0f), Izh_d_sd(-1.0f),
-							   Izh_C(-1.0f), Izh_C_sd(-1.0f), Izh_k(-1.0f), Izh_k_sd(-1.0f),
-							   Izh_vr(-1.0f), Izh_vr_sd(1.0f), Izh_vt(1.0f), Izh_vt_sd(-1.0f),
-							   Izh_vpeak(-1.0f), Izh_vpeak_sd(-1.0f), lif_tau_m(-1), 
-							   lif_tau_ref(-1), lif_vTh(1.0f), lif_vReset(0.0f), lif_minRmem(1.0f),
-							   lif_maxRmem(1.0f)
-	{}
-	float 		Izh_C;
-	float 		Izh_C_sd;
-	float 		Izh_k;
-	float 		Izh_k_sd;
-	float 		Izh_vr;
-	float 		Izh_vr_sd;
-	float 		Izh_vt;
-	float 		Izh_vt_sd;
-	float 		Izh_vpeak;
-	float 		Izh_vpeak_sd;
-	float 		Izh_a;
-	float 		Izh_a_sd;
-	float 		Izh_b;
-	float 		Izh_b_sd;
-	float 		Izh_c;
-	float 		Izh_c_sd;
-	float 		Izh_d;
-	float 		Izh_d_sd;
-	int 		lif_tau_m; //!< parameters for a LIF spiking group
-	int 		lif_tau_ref;
-	float 		lif_vTh;
-	float 		lif_vReset;
-	double		lif_minRmem;
-	double		lif_maxRmem;
-} NeuralDynamicsConfig;
-
 //!< long-term plasiticity configurations
 typedef struct STDPConfig_s {
 	STDPConfig_s() : WithSTDP(false), WithESTDP(false), WithISTDP(false),
@@ -291,6 +165,158 @@ typedef struct NeuromodulatorConfig_s {
 	float decayNE;  //!< decay rate for Noradrenaline
 } NeuromodulatorConfig;
 
+typedef struct ConnectionInfo_s {
+	int grpSrc;
+	int grpDest;
+	int nSrc;
+	int nDest;
+	int srcGLoffset;
+	float initWt;
+	float maxWt;
+	int preSynId;
+	short int connId;
+	uint8_t delay;
+	// bool withSTDP;
+
+	bool operator== (const struct ConnectionInfo_s& conn) {
+		return (nSrc + srcGLoffset == conn.nSrc);
+	}
+} ConnectionInfo;
+
+/*!
+ * \brief The configuration of a connection
+ *
+ * This structure contains the configurations of connections that are created during configuration state.
+ * The configurations are later processed by compileNetwork() and translated to meta data which are ready to
+ * be linked.
+ * \see CARLsimState
+ */
+typedef struct ConnectConfig_s {
+	int                      grpSrc;
+	int                      grpDest;
+	uint8_t                  maxDelay;
+	uint8_t                  minDelay;
+	float                    maxWt;
+	float                    initWt;
+	float                    minWt;
+	RadiusRF                 connRadius;
+	float                    mulSynFast; //!< factor to be applied to either gAMPA or gGABAa
+	float                    mulSynSlow; //!< factor to be applied to either gNMDA or gGABAb
+	int                      connectionMonitorId; // ToDo: move to ConnectConfigMD
+	uint32_t                 connProp;
+	ConnectionGeneratorCore* conn;
+	conType_t                type;
+	float                    connProbability; //!< connection probability
+	short int                connId; //!< connectID of the element in the linked list
+	int                      numberOfConnections; // ToDo: move to ConnectConfigMD
+
+	STDPConfig stdpConfig;
+} ConnectConfig;
+
+/*!
+ * \brief the intermediate data of connect config
+ *
+ * \note for futre use
+ */
+typedef struct ConnectConfigMD_s {
+	ConnectConfigMD_s() : gConnId(-1), lConnId(-1), connectionMonitorId(-1), numberOfConnections(-1)
+	{}
+	int gConnId;
+	int lConnId;
+	int connectionMonitorId;
+	int numberOfConnections;
+} ConnectConfigMD;
+
+/*!
+* \brief The runtime configuration of a connection
+*
+* This structure contains the configurations of connections that are created by optimizeAndPartiionNetwork(),
+* which is ready to be executed by computing backend.
+* \see CARLsimState
+* \see SNNState
+*/
+typedef struct ConnectConfigRT_s {
+	float* mulSynFast; //!< factor to be applied to either gAMPA or gGABAa
+	float* mulSynSlow; //!< factor to be applied to either gNMDA or gGABAb
+
+	bool         WithSTDP;          //!< published by GroupConfig \sa GroupConfig
+	bool         WithESTDP;         //!< published by GroupConfig \sa GroupConfig
+	bool         WithISTDP;         //!< published by GroupConfig \sa GroupConfig
+	STDPType     WithESTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	STDPType     WithISTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	STDPCurve    WithESTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	STDPCurve    WithISTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	float        TAU_PLUS_INV_EXC;  //!< published by GroupConfig \sa GroupConfig
+	float        TAU_MINUS_INV_EXC; //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_PLUS_EXC;    //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_MINUS_EXC;   //!< published by GroupConfig \sa GroupConfig
+	float        GAMMA;             //!< published by GroupConfig \sa GroupConfig
+	float        KAPPA;             //!< published by GroupConfig \sa GroupConfig
+	float        OMEGA;             //!< published by GroupConfig \sa GroupConfig
+	float        TAU_PLUS_INV_INB;  //!< published by GroupConfig \sa GroupConfig
+	float        TAU_MINUS_INV_INB; //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_PLUS_INB;    //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_MINUS_INB;   //!< published by GroupConfig \sa GroupConfig
+	float        BETA_LTP;          //!< published by GroupConfig \sa GroupConfig
+	float        BETA_LTD;          //!< published by GroupConfig \sa GroupConfig
+	float        LAMBDA;            //!< published by GroupConfig \sa GroupConfig
+	float        DELTA;             //!< published by GroupConfig \sa GroupConfig
+} ConnectConfigRT;
+
+typedef struct compConnectionInfo_s {
+	int								grpSrc, grpDest;
+	short int               		connId;
+}compConnectionInfo;
+
+/*!
+* \brief The configuration of a compartmental connection
+*
+* This structure contains the configurations of compartmental connections that are created during configuration state.
+* The configurations are later processed by compileNetwork() and translated to meta data which are ready to
+* be linked.
+* \see CARLsimState
+*/
+typedef struct compConnectConfig_s {
+	int							grpSrc, grpDest;
+	short int               	connId;
+} compConnectConfig;
+
+//!< neural dynamics configuration
+typedef struct NeuralDynamicsConfig_s {
+	NeuralDynamicsConfig_s() : Izh_a(-1.0f), Izh_a_sd(-1.0f), Izh_b(-1.0f), Izh_b_sd(-1.0f),
+							   Izh_c(-1.0f), Izh_c_sd(-1.0f), Izh_d(-1.0f), Izh_d_sd(-1.0f),
+							   Izh_C(-1.0f), Izh_C_sd(-1.0f), Izh_k(-1.0f), Izh_k_sd(-1.0f),
+							   Izh_vr(-1.0f), Izh_vr_sd(1.0f), Izh_vt(1.0f), Izh_vt_sd(-1.0f),
+							   Izh_vpeak(-1.0f), Izh_vpeak_sd(-1.0f), lif_tau_m(-1), 
+							   lif_tau_ref(-1), lif_vTh(1.0f), lif_vReset(0.0f), lif_minRmem(1.0f),
+							   lif_maxRmem(1.0f)
+	{}
+	float 		Izh_C;
+	float 		Izh_C_sd;
+	float 		Izh_k;
+	float 		Izh_k_sd;
+	float 		Izh_vr;
+	float 		Izh_vr_sd;
+	float 		Izh_vt;
+	float 		Izh_vt_sd;
+	float 		Izh_vpeak;
+	float 		Izh_vpeak_sd;
+	float 		Izh_a;
+	float 		Izh_a_sd;
+	float 		Izh_b;
+	float 		Izh_b_sd;
+	float 		Izh_c;
+	float 		Izh_c_sd;
+	float 		Izh_d;
+	float 		Izh_d_sd;
+	int 		lif_tau_m; //!< parameters for a LIF spiking group
+	int 		lif_tau_ref;
+	float 		lif_vTh;
+	float 		lif_vReset;
+	double		lif_minRmem;
+	double		lif_maxRmem;
+} NeuralDynamicsConfig;
+
 /*!
  * \brief The configuration of a group
  *
@@ -300,7 +326,8 @@ typedef struct NeuromodulatorConfig_s {
  * \see CARLsimState
  */
 typedef struct GroupConfig_s {
-	GroupConfig_s() : grpName("N/A"), preferredNetId(-2), type(0), numN(-1), isSpikeGenerator(false), spikeGenFunc(NULL)
+	GroupConfig_s() : grpName("N/A"), preferredNetId(-2), type(0), numN(-1), isSpikeGenerator(false), spikeGenFunc(NULL), 
+	WithSTDP(false), WithDA_MOD(false)
 	{}
 
 	// properties of neural group size and location
@@ -316,11 +343,14 @@ typedef struct GroupConfig_s {
 	float compCouplingUp;
 	float compCouplingDown;
 
+	bool WithSTDP; 
+	bool WithDA_MOD; 
+
 	SpikeGeneratorCore* spikeGenFunc;
 
 	Grid3D grid; //<! location information of neurons
 	NeuralDynamicsConfig neuralDynamicsConfig;
-	STDPConfig stdpConfig;
+	// STDPConfig stdpConfig;
 	STPConfig stpConfig;
 	HomeostasisConfig homeoConfig;
 	NeuromodulatorConfig neuromodulatorConfig;
@@ -389,12 +419,13 @@ typedef struct GroupConfigRT_s {
 	bool         isSpikeGenFunc;    //!< published by GroupConfig \sa GroupConfig
 	bool         WithSTP;           //!< published by GroupConfig \sa GroupConfig
 	bool         WithSTDP;          //!< published by GroupConfig \sa GroupConfig
-	bool         WithESTDP;         //!< published by GroupConfig \sa GroupConfig
-	bool         WithISTDP;         //!< published by GroupConfig \sa GroupConfig
-	STDPType     WithESTDPtype;     //!< published by GroupConfig \sa GroupConfig
-	STDPType     WithISTDPtype;     //!< published by GroupConfig \sa GroupConfig
-	STDPCurve    WithESTDPcurve;    //!< published by GroupConfig \sa GroupConfig
-	STDPCurve    WithISTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	bool 		 WithDA_MOD; 
+	// bool         WithESTDP;         //!< published by GroupConfig \sa GroupConfig
+	// bool         WithISTDP;         //!< published by GroupConfig \sa GroupConfig
+	// STDPType     WithESTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	// STDPType     WithISTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	// STDPCurve    WithESTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	// STDPCurve    WithISTDPcurve;    //!< published by GroupConfig \sa GroupConfig
 	bool         WithHomeostasis;   //!< published by GroupConfig \sa GroupConfig
 	bool         FixedInputWts;     //!< published by GroupConfigMD \sa GroupConfigMD
 	bool         hasExternalConnect;//!< published by GroupConfigMD \sa GroupConfigMD
@@ -405,21 +436,21 @@ typedef struct GroupConfigRT_s {
 	float        STP_U;             //!< published by GroupConfig \sa GroupConfig
 	float        STP_tau_u_inv;     //!< published by GroupConfig \sa GroupConfig
 	float        STP_tau_x_inv;     //!< published by GroupConfig \sa GroupConfig
-	float        TAU_PLUS_INV_EXC;  //!< published by GroupConfig \sa GroupConfig
-	float        TAU_MINUS_INV_EXC; //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_PLUS_EXC;    //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_MINUS_EXC;   //!< published by GroupConfig \sa GroupConfig
-	float        GAMMA;             //!< published by GroupConfig \sa GroupConfig
-	float        KAPPA;             //!< published by GroupConfig \sa GroupConfig
-	float        OMEGA;             //!< published by GroupConfig \sa GroupConfig
-	float        TAU_PLUS_INV_INB;  //!< published by GroupConfig \sa GroupConfig
-	float        TAU_MINUS_INV_INB; //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_PLUS_INB;    //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_MINUS_INB;   //!< published by GroupConfig \sa GroupConfig
-	float        BETA_LTP;          //!< published by GroupConfig \sa GroupConfig
-	float        BETA_LTD;          //!< published by GroupConfig \sa GroupConfig
-	float        LAMBDA;            //!< published by GroupConfig \sa GroupConfig
-	float        DELTA;             //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_PLUS_INV_EXC;  //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_MINUS_INV_EXC; //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_PLUS_EXC;    //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_MINUS_EXC;   //!< published by GroupConfig \sa GroupConfig
+	// float        GAMMA;             //!< published by GroupConfig \sa GroupConfig
+	// float        KAPPA;             //!< published by GroupConfig \sa GroupConfig
+	// float        OMEGA;             //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_PLUS_INV_INB;  //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_MINUS_INV_INB; //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_PLUS_INB;    //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_MINUS_INB;   //!< published by GroupConfig \sa GroupConfig
+	// float        BETA_LTP;          //!< published by GroupConfig \sa GroupConfig
+	// float        BETA_LTD;          //!< published by GroupConfig \sa GroupConfig
+	// float        LAMBDA;            //!< published by GroupConfig \sa GroupConfig
+	// float        DELTA;             //!< published by GroupConfig \sa GroupConfig
 
 									//!< homeostatic plasticity variables
 	float avgTimeScale;             //!< published by GroupConfig \sa GroupConfig

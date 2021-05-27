@@ -635,7 +635,7 @@ public:
 	 * \deprecated For clearness, do not use default STDP settings.
 	 * \since v2.1
 	 */
-	void setSTDP(int grpId, bool isSet);
+	void setSTDP(int preGrpId, int postGrpId, bool isSet);
 
 	/*!
 	 * \brief Sets STDP params for a group, custom
@@ -646,7 +646,7 @@ public:
 	 * \deprecated For clearness, please use CARLsim::setESTDP() with E-STDP curve struct.
 	 * \since v2.1
 	 */
-	void setSTDP(int grpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus);
+	void setSTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus);
 
 	/*!
 	 * \brief Sets default E-STDP mode and parameters
@@ -657,7 +657,7 @@ public:
 	 * \deprecated For clearness, please do not use default STDP settings.
 	 * \since v3.0
 	 */
-	void setESTDP(int grpId, bool isSet);
+	void setESTDP(int preGrpId, int postGrpId, bool isSet);
 
 	/*!
 	 * \brief Sets E-STDP with the exponential curve
@@ -672,7 +672,7 @@ public:
 	 * \sa ExpCurve
 	 * \since v3.0
 	 */
-	void setESTDP(int grpId, bool isSet, STDPType type, ExpCurve curve);
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve);
 
 	/*!
 	 * \brief Sets E-STDP with the timing-based curve
@@ -687,7 +687,7 @@ public:
 	 * \sa TimingBasedCurve
 	 * \since v3.0
 	 */
-	void setESTDP(int grpId, bool isSet, STDPType type, TimingBasedCurve curve);
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, TimingBasedCurve curve);
 
 	/*!
 	 * \brief Sets default I-STDP mode and parameters
@@ -698,7 +698,7 @@ public:
 	 * \deprecated For clearness, please do not use default STDP settings.
 	 * \since v3.0
 	 */
-	void setISTDP(int grpId, bool isSet);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet);
 
 	/*!
 	 * \brief Sets I-STDP with the exponential curve
@@ -713,7 +713,7 @@ public:
 	 * \sa ExpCurve
 	 * \since v3.0
 	 */
-	void setISTDP(int grpId, bool isSet, STDPType type, ExpCurve curve);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve);
 
 	/*!
 	 * \brief Sets I-STDP with the pulse curve
@@ -728,7 +728,7 @@ public:
 	 * \sa PulseCurve
 	 * \since v3.0
 	 */
-	void setISTDP(int grpId, bool isSet, STDPType type, PulseCurve curve);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve);
 
 	/*!
 	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
@@ -1597,7 +1597,7 @@ public:
 	 * \STATE ::SETUP_STATE, ::RUN_STATE
 	 * \sa GroupSTDPInfo
 	 */
-	GroupSTDPInfo getGroupSTDPInfo(int grpId);
+	ConnSTDPInfo getConnSTDPInfo(int grpId);
 
 	/*!
 	 * \brief returns the neuromodulator information of a group specified by grpId
