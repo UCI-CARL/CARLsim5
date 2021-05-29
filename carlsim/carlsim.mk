@@ -145,7 +145,7 @@ prep_nocuda:
 	$(eval NVCCFL := $(CXXFL))
 
 prep_release:
-	$(eval CXXFL += -O3 -ffast-math)
+	$(eval CXXFL += -ffast-math)
 	$(eval NVCCFL += --compiler-options "-O3 -ffast-math")
 
 prep_debug:

@@ -43,7 +43,7 @@ public:
 	static const int runTime = 2;
 
 	// Target rates for the objective function
-	const float INPUT_TARGET_HZ = 30.0f;
+	const float INPUT_TARGET_HZ = 5.0f;
 	const float EXC_TARGET_HZ   = 10.0f;
 	const float INH_TARGET_HZ   = 20.0f;
 
@@ -106,10 +106,10 @@ public:
 			network->setNeuronParameters(inhGroup[i], FAST_IZH[0], FAST_IZH[1], FAST_IZH[2], FAST_IZH[3]);
 			network->setConductances(true,COND_tAMPA,COND_tNMDA,COND_tGABAa,COND_tGABAb);
 
-			network->connect(poissonGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,0)), 0.5f, RangeDelay(1));
-			network->connect(excGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,1)), 0.5f, RangeDelay(1));
-			network->connect(excGroup[i], inhGroup[i], "random", RangeWeight(parameters.getParameter(i,2)), 0.5f, RangeDelay(1));
-			network->connect(inhGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,3)), 0.5f, RangeDelay(1));
+			network->connect(poissonGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,0)), 0.1f, RangeDelay(1));
+			network->connect(excGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,1)), 0.1f, RangeDelay(1));
+			network->connect(excGroup[i], inhGroup[i], "random", RangeWeight(parameters.getParameter(i,2)), 0.1f, RangeDelay(1));
+			network->connect(inhGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,3)), 0.1f, RangeDelay(1));
 		}
 //! [experiment6]
 
