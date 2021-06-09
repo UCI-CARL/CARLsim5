@@ -3123,6 +3123,10 @@ void SNN::generateRuntimeConnectConfigs() {
 			int lConnId = connIt->connId;
 			connectConfigMap[lConnId] = *connIt;
 
+			connectConfigs[netId][lConnId].grpSrc =  connIt->grpSrc;
+			connectConfigs[netId][lConnId].grpDest =  connIt->grpDest;
+
+			connectConfigs[netId][lConnId].WithSTDP =  connectConfigMap[lConnId].stdpConfig.WithSTDP;
 			connectConfigs[netId][lConnId].WithESTDP =  connectConfigMap[lConnId].stdpConfig.WithESTDP;
 			connectConfigs[netId][lConnId].WithISTDP = connectConfigMap[lConnId].stdpConfig.WithISTDP;
 			connectConfigs[netId][lConnId].WithESTDPtype = connectConfigMap[lConnId].stdpConfig.WithESTDPtype;
@@ -3151,6 +3155,10 @@ void SNN::generateRuntimeConnectConfigs() {
 			int lConnId = connIt->connId;
 			connectConfigMap[lConnId] = *connIt;
 
+			connectConfigs[netId][lConnId].grpSrc =  connIt->grpSrc;
+			connectConfigs[netId][lConnId].grpDest =  connIt->grpDest;
+
+			connectConfigs[netId][lConnId].WithSTDP =  connectConfigMap[lConnId].stdpConfig.WithSTDP;
 			connectConfigs[netId][lConnId].WithESTDP =  connectConfigMap[lConnId].stdpConfig.WithESTDP;
 			connectConfigs[netId][lConnId].WithISTDP = connectConfigMap[lConnId].stdpConfig.WithISTDP;
 			connectConfigs[netId][lConnId].WithESTDPtype = connectConfigMap[lConnId].stdpConfig.WithESTDPtype;

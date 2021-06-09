@@ -3718,9 +3718,6 @@ void SNN::allocateSNN_GPU(int netId) {
 	CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(d_mulSynSlow, mulSynSlow, sizeof(float) * networkConfigs[netId].numConnections, 0, cudaMemcpyHostToDevice));
 
 	copyGroupConfigs(netId);
-
-	copyConnectConfigs(netId);
-
 	KERNEL_DEBUG("Transfering group settings to GPU:");
 	for (int lGrpId = 0; lGrpId < networkConfigs[netId].numGroupsAssigned; lGrpId++) {
 		KERNEL_DEBUG("Settings for Group %s:", groupConfigMap[groupConfigs[netId][lGrpId].gGrpId].grpName.c_str());
@@ -3756,6 +3753,29 @@ void SNN::allocateSNN_GPU(int netId) {
 			//				KERNEL_DEBUG("\t\tSTP_tF: %f",groupConfigs[netId][lGrpId].STP_tF);
 		}
 		KERNEL_DEBUG("\tspikeGen: %s", groupConfigs[netId][lGrpId].isSpikeGenFunc ? "is Set" : "is not set ");
+	}
+
+	copyConnectConfigs(netId);
+	KERNEL_DEBUG("Transfering connection settings to GPU:");
+	for (int lConnId = 0; lConnId < networkConfigs[netId].numConnections; lConnId++) {
+		KERNEL_DEBUG("Settings for Connection from Group %s to Group %s:", groupConfigMap[connectConfigs[netId][lConnId].grpSrc].grpName.c_str(),groupConfigMap[connectConfigs[netId][lConnId].grpDest].grpName.c_str());
+		KERNEL_DEBUG("\tWithSTDP: %d", (int)connectConfigs[netId][lConnId].WithSTDP);
+		if (connectConfigs[netId][lConnId].WithSTDP) {
+			KERNEL_DEBUG("\t\tE-STDP type: %s", stdpType_string[connectConfigs[netId][lConnId].WithESTDPtype]);
+			KERNEL_DEBUG("\t\tTAU_PLUS_INV_EXC: %f", connectConfigs[netId][lConnId].TAU_PLUS_INV_EXC);
+			KERNEL_DEBUG("\t\tTAU_MINUS_INV_EXC: %f", connectConfigs[netId][lConnId].TAU_MINUS_INV_EXC);
+			KERNEL_DEBUG("\t\tALPHA_PLUS_EXC: %f", connectConfigs[netId][lConnId].ALPHA_PLUS_EXC);
+			KERNEL_DEBUG("\t\tALPHA_MINUS_EXC: %f", connectConfigs[netId][lConnId].ALPHA_MINUS_EXC);
+			KERNEL_DEBUG("\t\tI-STDP type: %s", stdpType_string[connectConfigs[netId][lConnId].WithISTDPtype]);
+			KERNEL_DEBUG("\t\tTAU_PLUS_INV_INB: %f", connectConfigs[netId][lConnId].TAU_PLUS_INV_INB);
+			KERNEL_DEBUG("\t\tTAU_MINUS_INV_INB: %f", connectConfigs[netId][lConnId].TAU_MINUS_INV_INB);
+			KERNEL_DEBUG("\t\tALPHA_PLUS_INB: %f", connectConfigs[netId][lConnId].ALPHA_PLUS_INB);
+			KERNEL_DEBUG("\t\tALPHA_MINUS_INB: %f", connectConfigs[netId][lConnId].ALPHA_MINUS_INB);
+			KERNEL_DEBUG("\t\tLAMBDA: %f", connectConfigs[netId][lConnId].LAMBDA);
+			KERNEL_DEBUG("\t\tDELTA: %f", connectConfigs[netId][lConnId].DELTA);
+			KERNEL_DEBUG("\t\tBETA_LTP: %f", connectConfigs[netId][lConnId].BETA_LTP);
+			KERNEL_DEBUG("\t\tBETA_LTD: %f", connectConfigs[netId][lConnId].BETA_LTD);
+		}
 	}
 
 	// allocation of gpu runtime data is done

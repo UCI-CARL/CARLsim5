@@ -239,6 +239,9 @@ typedef struct ConnectConfigRT_s {
 	float* mulSynFast; //!< factor to be applied to either gAMPA or gGABAa
 	float* mulSynSlow; //!< factor to be applied to either gNMDA or gGABAb
 
+	int          grpSrc;
+	int          grpDest;
+
 	bool         WithSTDP;          //!< published by GroupConfig \sa GroupConfig
 	bool         WithESTDP;         //!< published by GroupConfig \sa GroupConfig
 	bool         WithISTDP;         //!< published by GroupConfig \sa GroupConfig
