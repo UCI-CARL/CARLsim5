@@ -1275,8 +1275,7 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 	float t_effectiveWtChange = networkConfigGPU.stdpScaleFactor * t_wtChange;
 	float t_maxWt = runtimeDataGPU.maxSynWt[synId];
 
-	unsigned int pos = runtimeDataGPU.cumulativePre[nid] + synId;
-	short int connId = runtimeDataGPU.connIdsPreIdx[pos];
+	short int connId = runtimeDataGPU.connIdsPreIdx[synId];
 
 	switch (connectConfigsGPU[connId].WithESTDPtype) {
 	case STANDARD:
